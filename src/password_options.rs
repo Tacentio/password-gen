@@ -25,6 +25,17 @@ pub struct PasswordOptions {
 
 impl PasswordOptions {
     /// Create a set of options for generating a password.
+    ///
+    /// ## Example
+    ///
+    /// ```
+    /// use password_gen::{PasswordOptions, PasswordGenerator};
+    /// use password_gen::password_options::CharSet;
+    /// let mut generator = PasswordGenerator::new();
+    /// let options = PasswordOptions::new(15, CharSet::Ascii, true, true);
+    /// let password = generator.generate_password(&options);
+    /// ```
+    ///
     pub fn new(
         length: u32,
         character_set: CharSet,

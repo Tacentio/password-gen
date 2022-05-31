@@ -5,7 +5,7 @@ use rand::seq::SliceRandom;
 use rand::{thread_rng, Rng};
 
 /// Describes a password generator. Wrapper around a ThreadRng so it's
-/// cached to improve performance.
+/// cached to improve performance when generating random characters.
 pub struct PasswordGenerator {
     rng: ThreadRng,
 }
@@ -13,6 +13,12 @@ pub struct PasswordGenerator {
 impl PasswordGenerator {
     /// Initialises a new PasswordGenerator, instantiating the
     /// ThreadRng.
+    ///
+    /// ## Example
+    /// ```
+    /// use password_gen::PasswordGenerator;
+    /// let generator = PasswordGenerator::new();
+    /// ```
     pub fn new() -> PasswordGenerator {
         PasswordGenerator { rng: thread_rng() }
     }
@@ -20,6 +26,15 @@ impl PasswordGenerator {
 
 impl PasswordGenerator {
     /// Generates a random password that match the given requirements.
+    ///
+    /// ## Example
+    /// ```
+    /// use password_gen::{PasswordOptions, PasswordGenerator};
+    /// use password_gen::password_options::CharSet;
+    /// let mut generator = PasswordGenerator::new();
+    /// let options = PasswordOptions::new(15, CharSet::Ascii, true, true);
+    /// let password = generator.generate_password(&options);
+    /// ```
     pub fn generate_password(&mut self, options: &PasswordOptions) -> String {
         let mut chars: Vec<char> = Vec::new();
         match options.character_set {
