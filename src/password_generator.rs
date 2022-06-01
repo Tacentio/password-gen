@@ -6,8 +6,11 @@ use rand::{thread_rng, Rng};
 
 /// Describes a password generator. Wrapper around a ThreadRng so it's
 /// cached to improve performance when generating random characters.
+/// Dictionary also loaded when instantiated so it doesn't have to be called
+/// multiple times.
 pub struct PasswordGenerator {
     rng: ThreadRng,
+    dictionary: Vec<&'static str>,
 }
 
 impl PasswordGenerator {
@@ -20,7 +23,10 @@ impl PasswordGenerator {
     /// let generator = PasswordGenerator::new();
     /// ```
     pub fn new() -> PasswordGenerator {
-        PasswordGenerator { rng: thread_rng() }
+        PasswordGenerator {
+            rng: thread_rng(),
+            dictionary: dictionary::get_dictionary(),
+        }
     }
 }
 
@@ -63,12 +69,11 @@ impl PasswordGenerator {
                 }
             }
             CharSet::Xkcd => {
-                let dict = dictionary::get_dictionary();
                 let separators = dictionary::get_separators();
-                let separator = self.generate_random_word(&separators);
+                let separator = select_random_value(&separators, &mut self.rng);
                 let mut password = String::new();
                 for i in 0..options.length as usize {
-                    let word = self.generate_random_word(&dict);
+                    let word = select_random_value(&self.dictionary, &mut self.rng);
                     if rand::random() {
                         password.push_str(&word.to_uppercase());
                     } else {
@@ -115,13 +120,6 @@ impl PasswordGenerator {
         }
         return c;
     }
-
-    /// Given a vector of words, randomly selects a word from the list.
-    fn generate_random_word(&mut self, dict: &Vec<&str>) -> String {
-        //println!("{}", dict.choose(&mut self.rng).unwrap());
-        let word: &str = *dict.choose(&mut self.rng).unwrap();
-        return String::from(word);
-    }
 }
 
 /// Validate a given character with the given PasswordOptions
@@ -132,6 +130,22 @@ pub fn validate_char(c: &char, options: &PasswordOptions) -> bool {
         return false;
     }
     return true;
+}
+
+/// Selects a random value from &Vec<T> and returns &T.
+///
+/// ## Example
+/// ```
+/// use rand::{thread_rng, Rng};
+/// use password_gen::password_generator::select_random_value;
+///
+/// let t: Vec<u32> = vec![1,2,3,4,5];
+/// let mut rng = thread_rng();
+/// let a:&u32 = select_random_value(&t, &mut rng);
+/// ```
+pub fn select_random_value<'a, T>(c: &'a Vec<T>, rng: &mut ThreadRng) -> &'a T {
+    let val = c.choose(rng).unwrap();
+    return val;
 }
 
 #[cfg(test)]

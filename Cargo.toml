@@ -1,6 +1,6 @@
 [package]
 name = "password-gen"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Library for generating passwords"
 license = "MIT OR Apache-2.0"
