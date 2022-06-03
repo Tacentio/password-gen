@@ -1,7 +1,11 @@
+#[cfg(feature = "cereal")]
+extern crate serde;
+
+#[cfg(feature = "cereal")]
 use serde::{Deserialize, Serialize};
 /// Describes the set of characters or words
 /// that will be used to generate a password.
-#[derive(Serialize, Deserialize)]
+#[cfg_attr(feature = "cereal", derive(Serialize, Deserialize))]
 pub enum CharSet {
     Ascii,
     AsciiExtended,
@@ -11,7 +15,7 @@ pub enum CharSet {
 
 /// Describes the options that are passed into the
 /// generate_password function.
-#[derive(Serialize, Deserialize)]
+#[cfg_attr(feature = "cereal", derive(Serialize, Deserialize))]
 pub struct PasswordOptions {
     /// How many characters in the password. Or, how many words in the password.
     pub length: u32,

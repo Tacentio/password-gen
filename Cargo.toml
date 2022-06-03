@@ -9,4 +9,6 @@ repository = "https://github.com/tacentio/password-gen"
 
 [dependencies]
 rand = "0.8.4"
-serde = { version = "1.0", features = ["derive"] }
+serde = { version = "1.0", default-features=false, features = ["derive"], optional = true }
+[features]
+cereal = ["serde/derive"]
