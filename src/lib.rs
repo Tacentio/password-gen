@@ -6,7 +6,7 @@ Secure password generation
 use password_gen::{PasswordOptions, PasswordGenerator};
 use password_gen::password_options::CharSet;
 let mut generator = PasswordGenerator::new();
-let options = PasswordOptions::new(15, CharSet::Ascii, true, true);
+let options = PasswordOptions::new(15, CharSet::Ascii);
 let password = generator.generate_password(&options);
 ```
 */
