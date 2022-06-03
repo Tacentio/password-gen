@@ -9,22 +9,19 @@ use serde::{Deserialize, Serialize};
 pub enum CharSet {
     Ascii,
     AsciiExtended,
-    Unicode,
     Xkcd,
+    Numbers,
+    Alphanumeric,
 }
 
 /// Describes the options that are passed into the
 /// generate_password function.
 #[cfg_attr(feature = "cereal", derive(Serialize, Deserialize))]
 pub struct PasswordOptions {
-    /// How many characters in the password. Or, how many words in the password.
-    pub length: u32,
+    /// How many characters in the password. Or, how many words in the password. 
+    pub min_length: u32,
     /// The set of characters or words to randmoly select from.
     pub character_set: CharSet,
-    /// Should the password contain only alphanumeric characters.
-    pub alphanumeric_only: bool,
-    /// Toggle whitespace. Generally better to set to false.
-    pub include_whitespace: bool,
 }
 
 impl PasswordOptions {
@@ -36,21 +33,14 @@ impl PasswordOptions {
     /// use password_gen::{PasswordOptions, PasswordGenerator};
     /// use password_gen::password_options::CharSet;
     /// let mut generator = PasswordGenerator::new();
-    /// let options = PasswordOptions::new(15, CharSet::Ascii, true, true);
+    /// let options = PasswordOptions::new(15, CharSet::Ascii);
     /// let password = generator.generate_password(&options);
     /// ```
     ///
-    pub fn new(
-        length: u32,
-        character_set: CharSet,
-        alphanumeric_only: bool,
-        include_whitespace: bool,
-    ) -> PasswordOptions {
+    pub fn new(min_length: u32, character_set: CharSet) -> PasswordOptions {
         PasswordOptions {
-            length,
+            min_length,
             character_set,
-            alphanumeric_only,
-            include_whitespace,
         }
     }
 }
