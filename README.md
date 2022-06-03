@@ -29,3 +29,7 @@ Supports different character sets each useful in their own right.
 | Xkcd      | `underrogue/orchesography/ARAMITESS` | - Passwords you need to remember or type                                                      |
 | Ascii     | `bpM2vqmGRfzaSmm5`                   | - Password for services that can't deal with special characters                               |
 | Ascii Ext | `ÝýIêø¹Ü¹fBDI2î1Ù`                   | - Extra entroy compared to Ascii but might not be accepted by some services                   |
+
+## Feature Flags
+
+- `cereal` - Enable `serde` `Serialization` and `Deserialization` support on `PasswordOptions`
