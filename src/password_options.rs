@@ -1,3 +1,7 @@
+use std::str::FromStr;
+use std::error::Error;
+use std::fmt;
+
 #[cfg(feature = "cereal")]
 extern crate serde;
 
@@ -12,6 +16,30 @@ pub enum CharSet {
     Xkcd,
     Numbers,
     Alphanumeric,
+}
+
+#[derive(Debug)]
+pub struct ParseCharSetError {}
+impl fmt::Display for ParseCharSetError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "String did not match")
+    }
+}
+
+impl Error for ParseCharSetError{}
+
+impl FromStr for CharSet {
+    type Err = ParseCharSetError;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s.to_lowercase().as_str() {
+            "ascii" => Ok(CharSet::Ascii),
+            "asciiextended" => Ok(CharSet::AsciiExtended),
+            "xkcd" => Ok(CharSet::Xkcd),
+            "numbers" => Ok(CharSet::Numbers),
+            "alphanumeric" => Ok(CharSet::Alphanumeric),
+            _ => Err(ParseCharSetError{})
+        }
+    }
 }
 
 /// Describes the options that are passed into the
