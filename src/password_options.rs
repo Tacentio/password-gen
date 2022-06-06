@@ -22,7 +22,7 @@ pub enum CharSet {
 pub struct ParseCharSetError {}
 impl fmt::Display for ParseCharSetError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "String did not match")
+        write!(f, "String did not match ascii, asciiextended, xkcd, numbers or alphanumeric")
     }
 }
 
