@@ -1,6 +1,6 @@
-use std::str::FromStr;
 use std::error::Error;
 use std::fmt;
+use std::str::FromStr;
 
 #[cfg(feature = "cereal")]
 extern crate serde;
@@ -22,11 +22,14 @@ pub enum CharSet {
 pub struct ParseCharSetError {}
 impl fmt::Display for ParseCharSetError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "String did not match ascii, asciiextended, xkcd, numbers or alphanumeric")
+        write!(
+            f,
+            "String did not match ascii, asciiextended, xkcd, numbers or alphanumeric"
+        )
     }
 }
 
-impl Error for ParseCharSetError{}
+impl Error for ParseCharSetError {}
 
 impl FromStr for CharSet {
     type Err = ParseCharSetError;
@@ -37,7 +40,7 @@ impl FromStr for CharSet {
             "xkcd" => Ok(CharSet::Xkcd),
             "numbers" => Ok(CharSet::Numbers),
             "alphanumeric" => Ok(CharSet::Alphanumeric),
-            _ => Err(ParseCharSetError{})
+            _ => Err(ParseCharSetError {}),
         }
     }
 }
@@ -46,7 +49,7 @@ impl FromStr for CharSet {
 /// generate_password function.
 #[cfg_attr(feature = "cereal", derive(Serialize, Deserialize))]
 pub struct PasswordOptions {
-    /// How many characters in the password. Or, how many words in the password. 
+    /// How many characters in the password. Or, how many words in the password.
     pub min_length: u32,
     /// The set of characters or words to randmoly select from.
     pub character_set: CharSet,

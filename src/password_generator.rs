@@ -82,7 +82,7 @@ impl PasswordGenerator {
 /// let mut rng = thread_rng();
 /// let a:&u32 = select_random_value(&t, &mut rng);
 /// ```
-pub fn select_random_value<'a, T>(c: &'a Vec<T>, rng: &mut ThreadRng) -> &'a T {
+pub fn select_random_value<'a, T>(c: &'a [T], rng: &mut ThreadRng) -> &'a T {
     let val = c.choose(rng).unwrap();
     return val;
 }
